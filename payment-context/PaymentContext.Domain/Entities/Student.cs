@@ -13,15 +13,9 @@ namespace PaymentContext.Domain.Entities
             Document = document;
             Email = email;
             _subscriptions = new List<Subscription>();
-        }
 
-        // public Student(Document document, Email email, Name name)
-        // {
-        //     Name = name;
-        //     Document = document;
-        //     Email = email;
-        //     _subscriptions = new List<Subscription>();
-        // }
+            AddNotifications(name, document, email);
+        }
 
         public Name Name { get; set; }
         public Document Document { get; private set; }
@@ -31,10 +25,6 @@ namespace PaymentContext.Domain.Entities
 
         public void AddSubscription(Subscription subscription)
         {
-            // Se já tiver uma assinatura ativa, cancela
-
-            // cancela todas as outras assinaturas, e coloca esta como principal
-
             foreach (var sub in Subscriptions)
                 sub.Inactivate();
 
