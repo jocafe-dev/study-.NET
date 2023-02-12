@@ -1,3 +1,4 @@
+using Flunt.Validations;
 using PaymentContext.Domain.ValueObjects;
 using PaymentContext.Shared.Entities;
 
@@ -20,15 +21,27 @@ namespace PaymentContext.Domain.Entities
         public Name Name { get; set; }
         public Document Document { get; private set; }
         public Email Email { get; private set; }
-        public Address Address { get; private set; }
+        public Address? Address { get; private set; }
         public IReadOnlyCollection<Subscription> Subscriptions { get { return _subscriptions.ToArray(); } }
 
         public void AddSubscription(Subscription subscription)
         {
-            foreach (var sub in Subscriptions)
-                sub.Inactivate();
+            var hasSubscriptionActive = false;
+            foreach (var sub in _subscriptions)
+            {
+                if (sub.Active)
+                    hasSubscriptionActive = true;
+            }
 
-            _subscriptions.Add(subscription);
+            AddNotifications(new Contract<Student>()
+                .Requires()
+                .IsFalse(hasSubscriptionActive, "Student.Subscriptions", "Você já tem uma assinatura ativa")
+                .AreEquals(0, subscription.Payments.Count, "Student.Subscriptions.Payments", "Esta assinatura não possui pagamentos")
+            );
+
+            // Alternativa
+            // if (hasSubscriptionActive)
+            //     AddNotification("Student.Subscriptions", "Você já tem uma assinatura ativa");
         }
     }
 }

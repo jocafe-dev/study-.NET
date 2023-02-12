@@ -6,7 +6,6 @@ namespace PaymentContext.Domain.Entities
     {
         public PayPalPayment(
             string transactionCode,
-            string cardNumber,
             DateTime paidDate,
             DateTime expireDate,
             decimal total,
@@ -16,7 +15,6 @@ namespace PaymentContext.Domain.Entities
             Address address,
             Email email
             ) : base(
-                cardNumber,
                 paidDate,
                 expireDate,
                 total,
