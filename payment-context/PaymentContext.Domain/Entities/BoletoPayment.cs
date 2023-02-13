@@ -7,13 +7,12 @@ namespace PaymentContext.Domain.Entities
         public BoletoPayment(
             string barCode,
             string boletoNumber,
-            string cardNumber,
             DateTime paidDate,
             DateTime expireDate,
             decimal total,
             decimal totalPaid,
-            Document document,
             string payer,
+            Document document,
             Address address,
             Email email
             ) : base(
